@@ -5,14 +5,16 @@ using UnityEngine;
 public class IngredientHandler : MonoBehaviour
 {
     Vector3 m_vecMouseDownPos;
-    [SerializeField] GameObject SlicePrefab;
-    //IngredientBase
+    [SerializeField] private IngredientBase data; 
+    public IngredientBase Data { get { return data; } }
     void Start()
     {
         
     }
-    public void Pick()
+    public GameObject Pick(Transform Cursor)
     {
         Debug.Log($"{name}¿Ã ¥≠∑»¥Ÿ!");
+        Instantiate(data.Prefab, Cursor);
+        return data.Prefab;
     }
 }
