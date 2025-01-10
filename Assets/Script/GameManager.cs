@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
-
+    public TrayHandler[] HTrays;
     public static GameManager Instance
     {
         get

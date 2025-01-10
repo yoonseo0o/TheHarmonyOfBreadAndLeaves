@@ -8,5 +8,17 @@ public class Bread : IngredientBase
 {
     [SerializeField] private BreadType type;
     public BreadType Type { get { return type; } }
-
+    public Bread() { AutoPlacement = true; }
+    public override Sandwich put(Sandwich sandwich)
+    {
+        if(sandwich!=null)
+        {
+            Debug.Log("트레이에 샌드위치가 존재합니다.");
+            return sandwich;
+        }
+        Sandwich mySandwich = new Sandwich(type);
+        base.put(mySandwich);
+        Debug.Log("Bread class");
+        return mySandwich;
+    }
 }

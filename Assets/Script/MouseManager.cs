@@ -14,6 +14,7 @@ public class MouseManager : MonoBehaviour
     [SerializeField] Transform CursorObj;
     private float fixedYPosition;
     private GameObject IngredientPrefab;
+    private IngredientBase ingredient;
     private bool IsPick;
     void Start()
     {
@@ -39,9 +40,9 @@ public class MouseManager : MonoBehaviour
             {
                 case (int)GameLayers.Ingredient:
                     {
-                        IngredientHandler handler = hit.transform.gameObject.GetComponent<IngredientHandler>();
+                        IngredientHandler HIngredient = hit.transform.GetComponent<IngredientHandler>();
 
-                        if (handler == null)
+                        if (HIngredient == null)
                         {
                             Debug.LogError("선택한 오브젝트에 IngredientHandler가 존재하지 않습니다.");
                             break;
@@ -51,15 +52,18 @@ public class MouseManager : MonoBehaviour
                         {
                             Destroy(CursorObj.GetChild(1).gameObject);
                         }
-
-                        IngredientPrefab = handler.Pick(CursorObj);
-                        if (handler.Data.BaseType != IngredientBaseType.Bread)
+                        
+                        if (HIngredient.Data.AutoPlacement)
                         {
+                            IngredientPrefab = HIngredient.Pick(CursorObj);
+                            ingredient = HIngredient.Data;
                             IsPick = true;
                         }
                         else
                         {
-                            Debug.Log("빵이 올라갔습니다.");
+                            IngredientPrefab = HIngredient.Pick(CursorObj);
+                            ingredient = HIngredient.Data;
+                            IsPick = true;
                         }
                         break;
                     }
@@ -74,8 +78,10 @@ public class MouseManager : MonoBehaviour
                             }
                             // 샌드위치 생성 안돼있다면 샌드위치 생성
                             // 샌드위치에 재료 놓기
-                            Debug.Log($"샌드위치에 {CursorObj.GetChild(1).name}이 올라갔습니다.");
+                            //Debug.Log($"샌드위치에 {CursorObj.GetChild(1).name}이 올라갔습니다.");
+                            TrayHandler HTray = hit.transform.GetComponent<TrayHandler>();
                             
+                            HTray.put(ingredient);
                             //IngredientPrefab = null;
                             //IsPick = false;
                         }
