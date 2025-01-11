@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum BreadType { Wheat,Bagel };
@@ -11,6 +12,7 @@ public class Bread : IngredientBase
     public Bread() { AutoPlacement = true; }
     public override Sandwich put(Sandwich sandwich)
     {
+
         if(sandwich!=null)
         {
             Debug.Log("트레이에 샌드위치가 존재합니다.");
@@ -20,5 +22,5 @@ public class Bread : IngredientBase
         base.put(mySandwich);
         Debug.Log("Bread class");
         return mySandwich;
-    }
+    } 
 }

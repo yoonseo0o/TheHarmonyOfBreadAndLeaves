@@ -19,7 +19,6 @@ public class MouseManager : MonoBehaviour
     void Start()
     {
         fixedYPosition = CursorObj.position.y;
-        Debug.Log(fixedYPosition);
     }
 
     void Update()
@@ -29,6 +28,7 @@ public class MouseManager : MonoBehaviour
         {
             OnMouseDown();
         }
+        
     }
     private void OnMouseDown()
     {
@@ -48,22 +48,41 @@ public class MouseManager : MonoBehaviour
                             break;
                         }
 
+                        // 기존 커서 제거
                         if (IsPick && CursorObj.childCount > 1)
                         {
                             Destroy(CursorObj.GetChild(1).gameObject);
                         }
-                        
-                        if (HIngredient.Data.AutoPlacement)
+
+                        // 선택한거 놓기
+                        if (ingredient == HIngredient.Data)
                         {
-                            IngredientPrefab = HIngredient.Pick(CursorObj);
-                            ingredient = HIngredient.Data;
-                            IsPick = true;
+                            // 커서 제거
+                            if (IsPick && CursorObj.childCount > 1)
+                            {
+                                Destroy(CursorObj.GetChild(1).gameObject);
+                                ingredient = null;
+                                IsPick = false;
+                            }
                         }
                         else
                         {
-                            IngredientPrefab = HIngredient.Pick(CursorObj);
-                            ingredient = HIngredient.Data;
-                            IsPick = true;
+                            // 자동 배치
+                            if (HIngredient.Data.AutoPlacement)
+                            {
+                                HIngredient.Pick(CursorObj);
+                                IngredientPrefab = null;
+                                ingredient = null;
+                                IsPick = false;
+                            }
+
+                            else
+                            {
+                                IngredientPrefab = HIngredient.Pick(CursorObj);
+                                ingredient = HIngredient.Data;
+                                IsPick = true;
+                            }
+
                         }
                         break;
                     }
@@ -94,7 +113,19 @@ public class MouseManager : MonoBehaviour
 
         }
     }
+    private void OnMouseDrag()
+    {
+            if (IsPick) 
+        {
 
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100.0f))
+            {
+
+            }
+        }
+    }
     private void MoveCursor()
     {
         Vector3 mousePosition = Input.mousePosition;

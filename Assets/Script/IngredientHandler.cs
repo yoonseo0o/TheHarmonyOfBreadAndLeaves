@@ -13,7 +13,8 @@ public class IngredientHandler : MonoBehaviour
         switch(data.BaseType)
         {
             case IngredientBaseType.Bread:
-                Debug.Log("빵을 클릭했습니다");
+                Debug.Log("빵은 못 집어용 대신 자동으로 놔줄게용");
+                GameManager.Instance.TrayManager.AutoPutBread(data);
                 break;
             case IngredientBaseType.Ingredient:
                 Instantiate(data.Prefab, Cursor);
